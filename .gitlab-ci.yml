@@ -20,12 +20,26 @@ python-tests:
     - python -m pip install -r track_2b/requirements.txt
     - PYTHONPATH=track_2b/src python -m pytest -q track_2b/tests
 
-docker-build:
+docker-build-and-smoke-test:
   stage: build
   image: docker:27-cli
   services:
     - name: docker:27-dind
-      alias: docker
   script:
     - docker info
     - docker build -f track_2b/Dockerfile -t studybridge-apertus:ci track_2b
+    - docker run -d --name studybridge-smoke studybridge-apertus:ci
+    - |
+      for attempt in $(seq 1 20); do
+        if docker run --rm --network container:studybridge-smoke curlimages/curl:8.10.1 --fail --silent --show-error http://127.0.0.1:5000/; then
+          echo "StudyBridge HTTP smoke test passed."
+          exit 0
+        fi
+        echo "Waiting for StudyBridge to become ready ($attempt/20)..."
+        sleep 2
+      done
+      docker logs studybridge-smoke
+      exit 1
+  after_script:
+    - docker logs studybridge-smoke || true
+    - docker rm -f studybridge-smoke || true
