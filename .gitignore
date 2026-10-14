@@ -25,3 +25,11 @@ build/
 .DS_Store
 .idea/
 .vscode/
+
+# Generated application and test data
+/data/
+/track_2b/data/processed/
+/track_2b/data/test_processed/
+
+# Test caches
+.pytest_cache/

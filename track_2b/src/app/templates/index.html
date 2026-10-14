@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBridge AI - Personalized Tutoring & Adaptive Learning</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>StudyBridge AI</h2>
+                <span class="badge">Track D</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-target="dashboard-section">📊 Dashboard</button>
+                <button class="nav-btn" data-target="materials-section">📚 Learning Materials</button>
+                <button class="nav-btn" data-target="tutor-section">🤖 Ask Your Tutor</button>
+                <button class="nav-btn" data-target="quiz-section">✍️ Practice Quiz</button>
+                <button class="nav-btn" data-target="progress-section">📈 Learning Progress</button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Hack Apertus 2026</p>
+                <small>Termux / Mobile Optimized</small>
+                <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleTheme()" style="margin-top: 10px; width: 100%; padding: 6px; background: rgba(255,255,255,0.1); border: none; color: inherit; border-radius: 4px; cursor: pointer;">🌓 Toggle Theme</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1 id="page-title">Study Dashboard</h1>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="secondary-btn" onclick="toggleTheme()" style="padding: 6px 12px; font-size: 0.85rem; cursor: pointer;">🌓 Theme</button>
+                    <div class="user-profile">
+                        <span class="status-indicator online"></span>
+                        <span>Student Mode</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="tab-section active">
+                    <div class="card-grid">
+                        <div class="card stat-card">
+                            <h3>Ingested Materials</h3>
+                            <p class="stat-number" id="stat-docs">3</p>
+                            <small>Slides, textbooks, & notes</small>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Average Mastery</h3>
+                            <p class="stat-number" id="stat-mastery">63%</p>
+                            <small>Across active topics</small>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Grounding Accuracy</h3>
+                            <p class="stat-number" id="stat-grounding">-</p>
+                            <small>Verified on test set</small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Welcome to StudyBridge AI</h2>
+                        <p>Your personalized tutoring and adaptive learning companion. Ingest lectures, ask grounded questions with source citations, practice custom quizzes, and track your topic mastery in real time.</p>
+                        <div class="quick-actions">
+                            <button class="primary-btn" onclick="switchTab('tutor-section')">Ask Tutor a Question</button>
+                            <button class="secondary-btn" onclick="switchTab('quiz-section')">Take Practice Quiz</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>System Status & Demonstration Mode</h2>
+                        <p class="info-text">🟢 Running locally on Python Flask. Transparent demonstration mode is active with pre-loaded multimodal lecture artifacts and test suites.</p>
+                    </div>
+                </section>
+
+                <!-- Learning Materials Section -->
+                <section id="materials-section" class="tab-section">
+                    <div class="card">
+                        <h2>📁 Upload File (.txt, .md, .pdf, .pptx)</h2>
+                        <p>Select a file from your phone or computer. PDFs and PowerPoint decks are automatically chunked by page/slide.</p>
+
+                        <form id="file-upload-form" class="upload-form">
+                            <div class="form-group">
+                                <label>Select File (TXT, MD, PDF, PPTX - Max 5MB)</label>
+                                <input type="file" id="upload-file" accept=".txt,.md,.pdf,.pptx" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Document Title (Optional)</label>
+                                <input type="text" id="file-doc-title" placeholder="Defaults to filename if blank">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select id="file-doc-type">
+                                        <option value="slides">Slides</option>
+                                        <option value="textbook">Textbook</option>
+                                        <option value="notes">Notes</option>
+                                        <option value="video">Video Transcript</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Source Reference (Optional)</label>
+                                    <input type="text" id="file-doc-source" placeholder="e.g., Chapter 1 or Page">
+                                </div>
+                                <div class="form-group">
+                                    <label>Timestamp (Optional)</label>
+                                    <input type="text" id="file-doc-timestamp" placeholder="e.g., 00:05:00">
+                                </div>
+                            </div>
+                            <button type="submit" class="primary-btn">Upload and Ingest File</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h2>Course Materials & Source Ingestion (Paste Text)</h2>
+                        <p>Upload lecture notes, slides, or textbook excerpts with automatic citation tracking.</p>
+
+                        <form id="upload-form" class="upload-form">
+                            <div class="form-group">
+                                <label>Document Title</label>
+                                <input type="text" id="doc-title" placeholder="e.g., Lecture 2: Neural Embeddings" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select id="doc-type">
+                                        <option value="slides">Slides</option>
+                                        <option value="textbook">Textbook</option>
+                                        <option value="notes">Notes</option>
+                                        <option value="video">Video Transcript</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Source Reference</label>
+                                    <input type="text" id="doc-source" placeholder="e.g., Slide 18 or Page 22" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Timestamp (Optional)</label>
+                                    <input type="text" id="doc-timestamp" placeholder="e.g., 00:22:10">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Content Excerpt / Notes</label>
+                                <textarea id="doc-content" rows="3" placeholder="Paste text excerpt or summary..." required></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn">Ingest Document</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h2>Ingested Library</h2>
+                        <div id="materials-list" class="materials-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ask Your Tutor Section -->
+                <section id="tutor-section" class="tab-section">
+                    <div class="card tutor-card">
+                        <h2>🤖 Ask Your AI Tutor</h2>
+                        <p>Ask questions about your coursework. Answers are grounded in ingested materials with traceable citations.</p>
+
+                        <div class="chat-container" id="chat-messages">
+                            <div class="message tutor-message">
+                                Hello! I am your StudyBridge AI tutor. Ask me anything about your lectures, slides, or notes.
+                            </div>
+                        </div>
+
+                        <form id="tutor-form" class="tutor-input-form">
+                            <input type="text" id="tutor-query" placeholder="Ask a question (e.g., What do cross-attention mechanisms do?)..." required>
+                            <button type="submit" class="primary-btn">Ask</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Practice Quiz Section -->
+                <section id="quiz-section" class="tab-section">
+                    <div class="card">
+                        <h2>✍️ Practice Quiz & Assessment</h2>
+                        <p>Select an available topic and start the quiz to test your understanding with adaptive questions and receive evidence-based feedback.</p>
+
+                        <div class="form-row" style="margin-bottom: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="quiz-topic-select">Select Topic</label>
+                                <select id="quiz-topic-select" class="form-control" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                                    <option value="">All Topics (Adaptive)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="display: flex; align-items: flex-end;">
+                                <button type="button" class="primary-btn" onclick="loadQuizForSelectedTopic()">Start Quiz</button>
+                            </div>
+                        </div>
+
+                        <div id="quiz-container">
+                            <p>Select a topic above and click <strong>Start Quiz</strong> to begin.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Learning Progress Section -->
+                <section id="progress-section" class="tab-section">
+                    <div class="card">
+                        <h2>📈 Topic Mastery & Adaptive Learning</h2>
+                        <p>Monitor your mastery probability across course topics.</p>
+
+                        <div id="progress-container" class="progress-grid">
+                            <!-- Populated via JS -->
+                        </div>
+
+                        <div class="recommendations-panel">
+                            <h3>🎯 Your Personalized Study Plan</h3>
+                            <p>Recommended next steps based on your mastery and available learning materials.</p>
+                            <div id="recommendations-container" aria-live="polite">
+                                <p>Loading your study recommendations...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Evaluation Metrics (RAG & Grounding)</h2>
+                        <div id="evaluation-container">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

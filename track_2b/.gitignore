@@ -25,3 +25,17 @@ build/
 .DS_Store
 .idea/
 .vscode/
+
+# Generated runtime and test data
+data/processed/
+data/test_processed/
+.pytest_cache/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python-generated files
+__pycache__/
+*.py[cod]

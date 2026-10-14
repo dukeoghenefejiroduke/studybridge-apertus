@@ -1,103 +1,115 @@
-# Track 2 B: Own Project
+# StudyBridge AI
 
-Bring your own idea and build a working Apertus prototype that tackles a problem you care about — any domain, any use case. The project must be new, started within the hackathon period.
+**Hack Apertus 2026 — Track 2B: Own Project**
 
-Submissions must use the Apertus model family.
-For Track 2 this means that submitted solutions must be built with Apertus. Other open-weights models can be used to support development, e.g. as automatic judges during evaluation. Their role must be clearly described in the submission report.
+StudyBridge AI helps students explore course materials, ask questions,
+practise through assessments, and track learning progress.
 
-💬 In case you have questions, join the conversation on [Discord](https://discord.gg/hack-apertus) or send an email to “hello@hackapertus.ch”
+It combines document ingestion, retrieval, tutoring, assessments, and
+learner-progress features. An optional Apertus integration generates
+answers using retrieved study passages as context.
 
----
+## Problem
 
-## 🔧 Resources & Tools
+Students can struggle to find relevant explanations in lengthy course
+materials and identify topics that need further practice. StudyBridge
+aims to make learning materials easier to explore and understand.
 
-Check our resources & tools page for detailed information:
-https://hackapertus.notion.site/resources-tools
+## Features
 
-| Models           | URL                                      |
-|------------------|------------------------------------------|
-| Apertus v1.5 8B  | [huggingface.co/swiss-ai/Apertus-v1.5-8B](https://huggingface.co/swiss-ai/Apertus-v1.5-8B)  |
-| Apertus v1.5 70B | [huggingface.co/swiss-ai/Apertus-v1.5-70B](https://huggingface.co/swiss-ai/Apertus-v1.5-70B) |
+- Ask questions about study materials.
+- Retrieve relevant passages for tutoring.
+- Optionally generate answers through an Apertus-compatible endpoint.
+- Retain local tutoring behaviour when external inference is disabled.
+- Practise through assessments and quizzes.
+- Track learner progress.
+- Run the application in Docker.
 
+## Architecture
 
-## Target architecture (mandatory)
+Flask serves the web application. Separate components handle retrieval,
+tutoring, assessments, and learner modelling.
 
-Whatever you build in Track 2B must be deployable in one of these three architectures:
+When explicitly enabled, the tutoring component sends the question and
+retrieved passages to a configured Apertus-compatible inference endpoint.
 
-- **a) On-premise** — on the organisation's own infrastructure, under its own administration.
-- **b) Air-gapped** — with no external network connection at runtime.
-- **c) Sovereign Swiss cloud** — on a cloud platform operated in Switzerland, under Swiss jurisdiction, with Swiss data residency.
+External inference is disabled by default.
 
----
+See docs/ARCHITECTURE.md and docs/EVALUATION.md for further details.
 
-## Data
+## Requirements
 
-The `data/` directory must not exceed 100 MB.
+- Docker Engine
+- GNU Make
+- Network access for the initial image build
+- An Apertus-compatible endpoint and credentials if remote inference is used
 
----
+## Run
 
-## 📦 Submission Requirements & Deliverables
+From the repository root, execute: make run
 
-❗️ Submissions are not handled on Devpost but via this URL only:
-http://hackapertus.ch/online-hack/submissions
+The application is configured to use port 5000 by default.
+Open http://localhost:5000 in your browser.
 
-The submission must: 
-1. follow the template repo and include all prerequisite files and definitions
-2. follow the specified input/output formats
-3. run in a Docker container, launched with `make run` from the root of the project
-4. run end-to-end when judges try to run it
+To change the host port, execute: make run PORT=8080
 
-### Git repo (URL)
-- Create your repo from this template (**Use this template**) and work in the `track_2b/` challenge directory. Delete the other track challenge directories.
-- Keep `track_2b/` as it is: don't rename it or move its files.
-- Set the repo to PUBLIC (Settings --> Collaborators --> Manage Visibility)
-- Submit the URL of YOUR Git repo.
+## Optional Apertus configuration
 
-### Technical Report (pdf)
-- Update [technical_report.md](technical_report.md) in this repository with all the details for your submission.
-- Upload a pdf of your technical report to this directory, named as `TeamName_Report.pdf`.
-- Format: pdf, max. 6 pages w/o references
-- Submit the pdf of the technical report.
+Set the following environment variables before running the application:
 
-### Demo video (URL)
-- Max. 2 min demo video of your prototype
+- STUDYBRIDGE_ENABLE_LLM=1
+- LLM_BASE_URL=<your approved Apertus endpoint>
+- LLM_NAME=swiss-ai/apertus-v1.5-8b
+- LLM_API_KEY=<your secret API key>
 
-### Dataset (URL) - optional, depending on your project
-Submitted datasets must comply with our guidelines for responsibly sourced datasets.
+Use an endpoint and model identifier supported by your deployment.
+Never commit API keys, passwords, or other secrets.
 
-- Create a user account on Hugging Face
-- Clone our dataset template on Hugging Face: https://huggingface.co/datasets/HackApertus/online_hack_template
-- Complete the dataset card with all required information
-- Upload your dataset. It should consist of the following components:
-    - evaluation dataset (i.e. individual test cases)
-    - model response dataset (i.e. the model response to each test case)
-    - metadata file (i.e. additional information about each test case; where relevant, this file must contain instance-level licensing information) 
-- Make sure your dataset access control is set to PUBLIC
-- Provide the URL of _your_ data set
+The endpoint must be configured for your actual deployment. A public
+API endpoint does not automatically satisfy the competition's
+sovereign-deployment requirement.
 
+## Testing
 
----
+Run the tests from the repository root with:
 
-## ⚖️ Judging Criteria
+PYTHONPATH=track_2b/src python -m pytest -q track_2b/tests
 
-1. Purposeful use of AI
-2. Technical rigour
-3. Value, cost & scalability
-4. Sovereign deployability
-5. Implementation feasibility
+Apertus client tests mock HTTP responses and do not require a live
+endpoint or consume API credits.
 
-Judges use a Scale 0–5 per dimension.
+## Data and privacy
 
----
+Do not commit private student information, uploaded documents,
+credentials, or generated learner records.
 
-## Support
+When remote inference is enabled, questions and retrieved passages may
+leave the application process. Assess endpoint security, retention,
+access controls, and jurisdiction before using real student data.
 
-**Licensing requirements**
-Please check our Terms & Conditions (6. What you build is open source):
-https://hackapertus.ch/terms-and-conditions
+The intended privacy-conscious target is an on-premises Apertus service
+controlled by the deploying organisation. End-to-end deployment has
+not yet been verified.
 
-## FAQ
-💡 https://hackapertus.ch/faq
+## Limitations
 
-## Contact
-💬 In case you have questions, join the conversation on Discord or send an email to “hello@hackapertus.ch”
+- Retrieval quality depends on available study materials.
+- Generated answers can still be incorrect or incomplete.
+- Grounding and citation quality need systematic evaluation.
+- Performance under large workloads has not been established.
+- Docker build and deployment still require remote verification.
+
+## Competition
+
+- Event: Hack Apertus 2026
+- Track: Track 2B — Own Project
+- Model family: Apertus
+- Intended project licence: CC-BY-4.0
+
+Verify the project's final licence and third-party component licences
+before submission.
+
+## License
+
+The project is intended to be released under Creative Commons
+Attribution 4.0 International (CC-BY-4.0), subject to licence review.

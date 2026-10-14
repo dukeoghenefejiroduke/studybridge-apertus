@@ -1,0 +1,4 @@
+flask>=3.0.0
+pytest>=8.0.0
+pypdf>=3.0.0
+gunicorn>=21.0.0

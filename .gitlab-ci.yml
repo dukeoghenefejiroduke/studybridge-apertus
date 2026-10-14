@@ -1,0 +1,31 @@
+stages:
+  - test
+  - build
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+
+cache:
+  paths:
+    - .cache/pip/
+
+python-tests:
+  stage: test
+  image: python:3.11-slim
+  script:
+    - python --version
+    - python -m pip install --upgrade pip
+    - python -m pip install -r track_2b/requirements.txt
+    - PYTHONPATH=track_2b/src python -m pytest -q track_2b/tests
+
+docker-build:
+  stage: build
+  image: docker:27-cli
+  services:
+    - name: docker:27-dind
+      alias: docker
+  script:
+    - docker info
+    - docker build -f track_2b/Dockerfile -t studybridge-apertus:ci track_2b

@@ -1,6 +1,15 @@
-.PHONY: run
+.PHONY: build run
 
-# Replace with the command that starts the project in a Docker container,
-# e.g. `docker compose up`. It must work from a clean checkout.
-run:
-	@echo "make run is not implemented yet — edit this Makefile"; exit 1
+IMAGE_NAME ?= studybridge-apertus
+PORT ?= 5000
+
+build:
+	docker build -t $(IMAGE_NAME) .
+
+run: build
+	docker run --rm --publish $(PORT):5000 \
+		-e STUDYBRIDGE_ENABLE_LLM \
+		-e LLM_BASE_URL \
+		-e LLM_NAME \
+		-e LLM_API_KEY \
+		$(IMAGE_NAME)
