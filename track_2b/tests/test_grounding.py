@@ -79,6 +79,7 @@ def test_unsupported_question_no_invented_citation(tmp_path):
 
 def test_irrelevant_material_not_presented_as_support(tmp_path):
     ingestion = IngestionManager(data_dir=str(tmp_path))
+    ingestion.documents = []
     ingestion.add_document(
         title="Recipe Book",
         doc_type="notes",
@@ -157,3 +158,27 @@ def test_path_traversal_filename_sanitized(tmp_path):
     assert res["success"] == True
     doc = res["document"]
     assert "passwd" in doc["title"]
+
+
+def test_supervised_unsupervised_learning_regression(tmp_path):
+    ingestion = IngestionManager(data_dir=str(tmp_path))
+    # Verify default ingestion loads 15 documents including Machine Learning Notes
+    docs = ingestion.get_all_documents()
+    assert len(docs) >= 15
+    ml_doc = next((d for d in docs if "Machine Learning Notes" in d.get("title", "")), None)
+    assert ml_doc is not None
+    assert "supervised learning" in ml_doc.get("content", "").lower()
+
+    retrieval = RetrievalEngine(ingestion)
+    tutor = TutorEngine(retrieval)
+
+    query = "Explain the difference between supervised and unsupervised learning using the available study materials. Cite the supporting source."
+    response = tutor.answer_question(query)
+    assert response["supported"] == True
+    assert len(response["citations"]) > 0
+    assert any("Machine Learning Notes" in c.get("title", "") for c in response["citations"])
+
+    # Verify unsupported question is still rejected
+    unsupported = tutor.answer_question("what is the capital of France and what is quantum teleportation")
+    assert unsupported["supported"] == False
+    assert unsupported["citations"] == []

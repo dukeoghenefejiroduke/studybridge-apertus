@@ -11,6 +11,7 @@ from app.ingestion import IngestionManager
 
 class TestFileUploadAndAPI(unittest.TestCase):
     def setUp(self):
+        os.environ["TESTING"] = "1"
         self.test_dir = "data/test_upload_processed"
         if os.path.exists(self.test_dir):
             shutil.rmtree(self.test_dir)

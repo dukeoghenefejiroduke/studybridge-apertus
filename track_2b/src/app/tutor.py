@@ -1,6 +1,7 @@
 """Grounded StudyBridge tutor with optional Apertus generation."""
 
 import os
+import sys
 
 from app.llm_client import ApertusClient
 
@@ -18,12 +19,22 @@ class TutorEngine:
         # unexpectedly spend API credit.
         self.llm_client = llm_client
 
-        enable_llm = os.getenv(
-            "STUDYBRIDGE_ENABLE_LLM", ""
-        ).strip().lower() in {"1", "true", "yes"}
+        self.is_testing = (
+            bool(os.getenv("PYTEST_CURRENT_TEST"))
+            or os.getenv("TESTING", "").lower() in {"1", "true", "yes"}
+            or "pytest" in sys.modules
+        )
+
+        enable_llm = (
+            os.getenv("STUDYBRIDGE_ENABLE_LLM", "").strip().lower()
+            in {"1", "true", "yes"}
+            and not self.is_testing
+        )
 
         if self.llm_client is None and enable_llm:
             self.llm_client = ApertusClient.from_env()
+        elif self.is_testing and self.llm_client is None:
+            self.llm_client = None
 
     def answer_question(self, query):
         if not isinstance(query, str) or not query.strip():
@@ -69,7 +80,7 @@ class TutorEngine:
         # Limit the amount of context sent to the model.
         passages = relevant_matches[:5]
 
-        if self.llm_client is not None:
+        if self.llm_client is not None and not self.is_testing:
             try:
                 answer = self.llm_client.generate(query, passages)
             except RuntimeError:

@@ -48,6 +48,102 @@ class IngestionManager:
                 "source": "Study Notes, Page 4",
                 "timestamp": "00:08:15",
                 "content": "Grounding ensures generated answers rely exclusively on retrieved context chunks. Unsupported queries are explicitly flagged to prevent hallucinations."
+            },
+            {
+                "id": "doc_4",
+                "title": "Machine Learning Notes",
+                "type": "notes",
+                "source": "ML Course Notes, Page 1",
+                "timestamp": None,
+                "content": "Supervised learning algorithms require labeled training data for classification tasks and regression models. Unsupervised learning algorithms work with unlabeled data to discover hidden patterns, cluster data points, or perform dimensionality reduction."
+            },
+            {
+                "id": "doc_5",
+                "title": "Neural Networks and Backpropagation",
+                "type": "textbook",
+                "source": "Textbook Chapter 5, Page 112",
+                "timestamp": None,
+                "content": "Neural networks use backpropagation and gradient descent to update weights during training, minimizing loss across layers."
+            },
+            {
+                "id": "doc_6",
+                "title": "Bayesian Knowledge Tracing in Education",
+                "type": "notes",
+                "source": "Research Paper, Page 2",
+                "timestamp": None,
+                "content": "Bayesian Knowledge Tracing (BKT) models student knowledge states as binary latent variables updated through practice observations."
+            },
+            {
+                "id": "doc_7",
+                "title": "Item Response Theory and Student Ability",
+                "type": "slides",
+                "source": "Slides Ch 4, Slide 8",
+                "timestamp": "00:22:10",
+                "content": "Item Response Theory (IRT) evaluates probability of correct response based on question difficulty and student ability parameters."
+            },
+            {
+                "id": "doc_8",
+                "title": "Vector Embeddings and Semantic Search",
+                "type": "notes",
+                "source": "Study Guide, Page 9",
+                "timestamp": None,
+                "content": "Vector embeddings represent text semantics in multi-dimensional space, enabling cosine similarity searches for retrieval."
+            },
+            {
+                "id": "doc_9",
+                "title": "Cross-Attention Mechanisms in Vision-Language Models",
+                "type": "textbook",
+                "source": "Textbook Chapter 2, Page 33",
+                "timestamp": None,
+                "content": "Cross-attention mechanisms allow models to query visual feature maps using textual token representations."
+            },
+            {
+                "id": "doc_10",
+                "title": "Hallucination Mitigation in RAG Systems",
+                "type": "notes",
+                "source": "Lecture Notes, Page 7",
+                "timestamp": "00:11:00",
+                "content": "Retrieval-augmented generation mitigates model hallucinations by supplying verifiable context and enforcing strict citation rules."
+            },
+            {
+                "id": "doc_11",
+                "title": "Evaluation Metrics for Intelligent Tutoring Systems",
+                "type": "textbook",
+                "source": "Textbook Chapter 8, Page 201",
+                "timestamp": None,
+                "content": "Evaluation metrics measure retrieval precision, citation accuracy, and pedagogical effectiveness of tutoring responses."
+            },
+            {
+                "id": "doc_12",
+                "title": "Natural Language Processing Tokenization and Stemming",
+                "type": "notes",
+                "source": "NLP Guide, Page 3",
+                "timestamp": None,
+                "content": "Tokenization breaks text into sub-words or words while stemming normalizes word variants for lexical analysis."
+            },
+            {
+                "id": "doc_13",
+                "title": "Reinforcement Learning from Human Feedback (RLHF)",
+                "type": "slides",
+                "source": "Advanced AI, Slide 15",
+                "timestamp": "00:45:30",
+                "content": "Reinforcement learning from human feedback aligns model outputs with user preferences using reward models and policy optimization."
+            },
+            {
+                "id": "doc_14",
+                "title": "Data Privacy and Secure Deployment in Sovereign Clouds",
+                "type": "notes",
+                "source": "Security Brief, Page 5",
+                "timestamp": None,
+                "content": "Sovereign cloud deployments ensure data residency, strict access controls, and encryption of sensitive records."
+            },
+            {
+                "id": "doc_15",
+                "title": "Automated Quiz Generation and Adaptive Difficulty Scaling",
+                "type": "textbook",
+                "source": "Textbook Chapter 6, Page 88",
+                "timestamp": None,
+                "content": "Automated quiz generation creates formative assessments from ingested documents, adjusting difficulty based on learner mastery."
             }
         ]
 

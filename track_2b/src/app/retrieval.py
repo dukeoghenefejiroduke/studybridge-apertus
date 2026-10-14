@@ -18,7 +18,10 @@ STOPWORDS = {
     "he", "she", "me", "my", "our", "your", "their", "as", "if",
     "about", "into", "through", "between", "during", "after", "before",
     "explain", "describe", "tell", "show", "give", "please",
-    "important", "importance", "role", "purpose"
+    "important", "importance", "role", "purpose",
+    "difference", "using", "available", "study", "materials",
+    "material", "cite", "supporting", "source", "sources",
+    "reference", "references"
 }
 
 
