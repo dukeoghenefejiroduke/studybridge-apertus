@@ -182,3 +182,28 @@ def test_supervised_unsupervised_learning_regression(tmp_path):
     unsupported = tutor.answer_question("what is the capital of France and what is quantum teleportation")
     assert unsupported["supported"] == False
     assert unsupported["citations"] == []
+
+
+def test_tutor_llm_fallback_on_runtime_error(tmp_path, monkeypatch):
+    monkeypatch.setenv("STUDYBRIDGE_FORCE_LLM_TEST", "1")
+    ingestion = IngestionManager(data_dir=str(tmp_path))
+    ingestion.add_document(
+        title="Test Notes",
+        doc_type="notes",
+        source="Test Source",
+        timestamp=None,
+        content="Grounding reduces hallucinations."
+    )
+    retrieval = RetrievalEngine(ingestion)
+
+    class FailingClient:
+        model = "swiss-ai/apertus-v1.5-8b"
+        def generate(self, question, passages):
+            raise RuntimeError("API failure")
+
+    tutor = TutorEngine(retrieval, llm_client=FailingClient())
+    response = tutor.answer_question("grounding hallucinations")
+    assert response["supported"] == True
+    assert response.get("generation_error") == True
+    assert "Apertus service could not generate an answer" in response["answer"]
+

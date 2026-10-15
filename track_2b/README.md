@@ -59,7 +59,7 @@ Set the following environment variables before running the application:
 
 - STUDYBRIDGE_ENABLE_LLM=1
 - LLM_BASE_URL=<your approved Apertus endpoint>
-- LLM_NAME=swiss-ai/apertus-8b-instruct
+- LLM_NAME=swiss-ai/apertus-v1.5-8b
 - LLM_API_KEY=<your secret API key>
 
 Use an endpoint and model identifier supported by your deployment.

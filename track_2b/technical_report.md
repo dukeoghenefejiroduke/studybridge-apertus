@@ -3,7 +3,7 @@
 
 **Project:** StudyBridge AI
 **Category:** Grounded, adaptive academic tutoring
-**Model:** swiss-ai/Apertus-8b-instruct
+**Model:** swiss-ai/apertus-v1.5-8b
 **Report licence:** CC-BY-4.0
 
 ## 1. Summary
@@ -46,7 +46,7 @@ The current demonstrated language-model integration uses a remotely hosted OpenA
 
 ## 3. Use of Apertus
 
-StudyBridge integrates the `swiss-ai/Apertus-8b-instruct` model through an OpenAI-compatible chat-completions interface.
+StudyBridge integrates the `swiss-ai/apertus-v1.5-8b` model through an OpenAI-compatible chat-completions interface.
 
 The client sends a system instruction and a user message containing the student's question and retrieved study passages. The prompt directs the model to:
 
@@ -58,7 +58,7 @@ The client sends a system instruction and a user message containing the student'
 
 The configured generation temperature is 0.2 and the maximum response length is 600 tokens. The model identifier, endpoint, and optional API key are configured through environment variables. Credentials are not intended to be stored in source code or committed to the repository.
 
-A successful live inference request was tested using the configured `swiss-ai/Apertus-8b-instruct` model through a remotely hosted OpenAI-compatible endpoint. The question concerned grounding and its role in reducing hallucinations. The response referred to the supplied study material and included a passage citation.
+A successful live inference request was tested using the configured `swiss-ai/apertus-v1.5-8b` model through a remotely hosted OpenAI-compatible endpoint. The question concerned grounding and its role in reducing hallucinations. The response referred to the supplied study material and included a passage citation.
 
 This demonstrates that the integration can communicate with the model and return a generated answer. It does not establish general factual accuracy, citation correctness across a broad dataset, or resistance to all forms of hallucination.
 
@@ -82,7 +82,7 @@ Evaluation covers software correctness, application startup, HTTP availability, 
 
 ### Automated software tests
 
-The Python test suite contains 77 passing tests in the current project state. These tests cover application functionality, including tutoring, retrieval and grounding behaviour, assessments, learner modelling, personalization, recommendations, document upload, and evaluation-related functionality.
+The Python test suite contains 78 passing tests in the current project state. These tests cover application functionality, including tutoring, retrieval and grounding behaviour, assessments, learner modelling, personalization, recommendations, document upload, and evaluation-related functionality.
 
 The GitLab CI Python test job completed successfully.
 

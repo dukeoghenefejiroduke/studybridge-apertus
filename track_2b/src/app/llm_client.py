@@ -24,7 +24,7 @@ class ApertusClient:
             base_url=base_url,
             model=os.getenv(
                 "LLM_NAME",
-                "swiss-ai/Apertus-v1.5-8B"
+                "swiss-ai/apertus-v1.5-8b"
             ),
             api_key=os.getenv("LLM_API_KEY", ""),
         )

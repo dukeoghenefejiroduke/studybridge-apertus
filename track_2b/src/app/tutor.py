@@ -88,7 +88,8 @@ class TutorEngine:
         passages = relevant_matches[:5]
 
         client = self._get_llm_client()
-        if client is not None and not self.is_testing:
+        force_test = os.getenv("STUDYBRIDGE_FORCE_LLM_TEST", "").strip().lower() in {"1", "true", "yes"}
+        if client is not None and (not self.is_testing or force_test):
             try:
                 answer = client.generate(query, passages)
             except RuntimeError:
