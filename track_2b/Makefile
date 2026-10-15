@@ -7,9 +7,8 @@ build:
 	docker build -t $(IMAGE_NAME) .
 
 run: build
-	docker run --rm --publish $(PORT):5000 \
-		-e STUDYBRIDGE_ENABLE_LLM \
-		-e LLM_BASE_URL \
-		-e LLM_NAME \
-		-e LLM_API_KEY \
-		$(IMAGE_NAME)
+	@if [ -f ../.env ]; then \
+		docker run --rm --publish $(PORT):5000 --env-file ../.env $(IMAGE_NAME); \
+	else \
+		docker run --rm --publish $(PORT):5000 $(IMAGE_NAME); \
+	fi

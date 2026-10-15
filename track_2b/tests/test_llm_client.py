@@ -7,6 +7,9 @@ from unittest.mock import Mock
 import pytest
 
 from app.llm_client import ApertusClient
+from app.tutor import TutorEngine
+from app.retrieval import RetrievalEngine
+from app.ingestion import IngestionManager
 
 
 def make_response(payload):
@@ -115,3 +118,17 @@ def test_generate_rejects_unexpected_response(monkeypatch):
 
     with pytest.raises(RuntimeError, match="unexpected response"):
         client.generate("Question?", [])
+
+
+def test_tutor_engine_auto_enables_with_base_url(monkeypatch):
+    monkeypatch.setenv("LLM_BASE_URL", "https://example.test/v1")
+    monkeypatch.setenv("STUDYBRIDGE_FORCE_LLM_TEST", "1")
+    monkeypatch.delenv("STUDYBRIDGE_ENABLE_LLM", raising=False)
+
+    ingestion = IngestionManager()
+    retrieval = RetrievalEngine(ingestion)
+    tutor = TutorEngine(retrieval)
+
+    client = tutor._get_llm_client()
+    assert client is not None
+    assert client.base_url == "https://example.test/v1"

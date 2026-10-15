@@ -3,6 +3,10 @@ Main Flask application for StudyBridge AI.
 Provides dashboard, learning materials, tutor Q&A, practice quiz, and learning progress API endpoints.
 """
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv(usecwd=True))
+
 from flask import Flask, render_template, request, jsonify
 from app.ingestion import IngestionManager
 from app.retrieval import RetrievalEngine

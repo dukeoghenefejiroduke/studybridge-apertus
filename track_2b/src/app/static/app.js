@@ -244,6 +244,19 @@ function setupTutorForm() {
             const tutorMsg = document.createElement("div");
             tutorMsg.className = "message tutor-message";
 
+            const indicator = document.createElement("div");
+            indicator.className = "model-indicator";
+            if (data.model) {
+                indicator.classList.add("ai");
+                indicator.textContent = `🤖 Apertus AI (${data.model})`;
+            } else if (data.generation_error) {
+                indicator.classList.add("error");
+                indicator.textContent = `⚠️ API Service Error (Fallback Local Answer)`;
+            } else {
+                indicator.textContent = `📚 Study Materials (Local Synthesis)`;
+            }
+            tutorMsg.appendChild(indicator);
+
             const answerDiv = document.createElement("div");
             answerDiv.textContent = data.answer;
             tutorMsg.appendChild(answerDiv);
