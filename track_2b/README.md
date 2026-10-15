@@ -59,7 +59,7 @@ Set the following environment variables before running the application:
 
 - STUDYBRIDGE_ENABLE_LLM=1
 - LLM_BASE_URL=<your approved Apertus endpoint>
-- LLM_NAME=swiss-ai/apertus-v1.5-8b
+- LLM_NAME=swiss-ai/apertus-8b-instruct
 - LLM_API_KEY=<your secret API key>
 
 Use an endpoint and model identifier supported by your deployment.
@@ -97,19 +97,21 @@ not yet been verified.
 - Generated answers can still be incorrect or incomplete.
 - Grounding and citation quality need systematic evaluation.
 - Performance under large workloads has not been established.
-- Docker build and deployment still require remote verification.
+- GitLab CI successfully built the Docker image and passed the HTTP smoke test. Deployment in a qualifying sovereign Swiss environment remains unverified.
 
 ## Competition
 
 - Event: Hack Apertus 2026
 - Track: Track 2B — Own Project
 - Model family: Apertus
-- Intended project licence: CC-BY-4.0
+- Source code licence: Apache-2.0
+- Documentation and report licence: CC-BY-4.0, where applicable
 
-Verify the project's final licence and third-party component licences
-before submission.
 
-## License
+## Licences
 
-The project is intended to be released under Creative Commons
-Attribution 4.0 International (CC-BY-4.0), subject to licence review.
+- Source code: Apache License 2.0, consistent with the repository's root `LICENSE`.
+- Original documentation and technical report: Creative Commons Attribution 4.0 International (CC-BY-4.0), where applicable.
+- Third-party dependencies, datasets, and learning materials retain their respective licences. Their terms must be respected.
+
+These distinctions follow the Hack Apertus Terms and Conditions, section 6. Check that any included third-party content is compatible with the applicable licence before submission.
